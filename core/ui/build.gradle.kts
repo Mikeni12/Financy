@@ -43,6 +43,7 @@ dependencies {
     api(libs.androidx.material.icons.extended)
     api(libs.androidx.material3)
     api(libs.androidx.navigation.compose)
+    api(libs.androidx.lifecycle.viewmodel.compose)
 
     debugApi(libs.androidx.ui.tooling)
     debugApi(libs.androidx.ui.test.manifest)

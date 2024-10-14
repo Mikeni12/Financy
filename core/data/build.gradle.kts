@@ -31,10 +31,15 @@ android {
 }
 
 dependencies {
-    api(platform("com.google.firebase:firebase-bom:33.4.0"))
-    api("com.google.firebase:firebase-analytics")
-    api("com.google.firebase:firebase-firestore")
-    api("com.google.firebase:firebase-auth")
+    api(platform(libs.firebase.bom))
+    api(libs.firebase.analytics)
+    api(libs.firebase.auth)
+    api(libs.firebase.firestore)
+    api(platform(libs.koin.bom))
+    api(libs.koin.android)
+    api(libs.koin.androidx.startup)
+    api(libs.koin.androidx.compose)
+    api(libs.koin.androidx.compose.navigation)
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
