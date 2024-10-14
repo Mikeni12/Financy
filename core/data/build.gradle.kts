@@ -10,13 +10,11 @@ android {
     defaultConfig {
         minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
@@ -31,6 +29,8 @@ android {
 }
 
 dependencies {
+    testImplementation(project(":core:testing"))
+    api(libs.kotlinx.coroutines.android)
     api(platform(libs.firebase.bom))
     api(libs.firebase.analytics)
     api(libs.firebase.auth)
@@ -41,7 +41,4 @@ dependencies {
     api(libs.koin.androidx.compose)
     api(libs.koin.androidx.compose.navigation)
     implementation(libs.androidx.core.ktx)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }

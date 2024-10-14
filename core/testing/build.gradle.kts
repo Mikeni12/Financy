@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "mx.mikeni.onboarding"
+    namespace = "mx.mikeni.testing"
     compileSdk = 34
 
     defaultConfig {
@@ -16,24 +15,28 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    packaging {
+        resources.excludes.addAll(listOf("META-INF/LICENSE.md", "META-INF/LICENSE-notice.md"))
     }
 }
 
 dependencies {
-    implementation(project(":core:data"))
-    implementation(project(":core:ui"))
-    testImplementation(project(":core:testing"))
-
-    implementation(libs.androidx.core.ktx)
+    val mockkVersion = "1.13.13"
+    api("io.mockk:mockk-android:${mockkVersion}")
+    api("io.mockk:mockk-agent:${mockkVersion}")
+    api(libs.mockk.android)
+    api(libs.mockk.agent)
+    api("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    api(libs.kotlinx.coroutines.android)
+    api(libs.kotlinx.coroutines.test)
+    api(libs.androidx.junit)
 }
