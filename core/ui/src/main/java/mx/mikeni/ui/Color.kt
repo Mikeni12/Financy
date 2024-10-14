@@ -12,3 +12,8 @@ val Pink40 = Color(0xFF7D5260)
 
 val GreenLight = Color(0xFF0D271A)
 val GreenDark = Color(0xFFA3D92E)
+
+val Error = Color(color = 0xFFDE1135)
+val Success = Color(color = 0xFF008263)
+
+val Neutral00 = Color(color = 0xFFFFFFFF)
