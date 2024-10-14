@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import mx.mikeni.data.auth.AuthRemoteDataSource
+import mx.mikeni.onboarding.signin.domain.ISignInUseCase
 
-class SignInViewModel(private val authRemoteDataSource: AuthRemoteDataSource) : ViewModel() {
+class SignInViewModel(private val signInUseCase: ISignInUseCase) : ViewModel() {
 
     private val _signInUiModel = MutableStateFlow(SignInUiModel())
 
@@ -22,7 +22,7 @@ class SignInViewModel(private val authRemoteDataSource: AuthRemoteDataSource) : 
         _signInUiModel.update { SignInUiModel(showProgress = true) }
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("totopito", "signIn: $email, $password")
-            val result = authRemoteDataSource.signIn(email, password)
+            val result = signInUseCase.signIn(email, password)
             withContext(Dispatchers.Main) {
                 result.onSuccess { signInSuccess() }
                         .onFailure { signInFailure(it) }
