@@ -5,14 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.launch
-import mx.mikeni.data.AuthRemoteDataSource
+import mx.mikeni.data.auth.AuthRemoteDataSource
 import mx.mikeni.data.UsersRemoteDataSource
 import mx.mikeni.ui.FinancyTheme
+import org.koin.compose.KoinContext
 
 class MainActivity : ComponentActivity() {
 
@@ -29,12 +28,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
-        lifecycleScope.launch {
-            signIn()
-        }
+//        lifecycleScope.launch {
+//            signIn()
+//        }
         setContent {
             FinancyTheme {
-                MainScreen(modifier = Modifier.fillMaxSize())
+                KoinContext {
+                    MainScreen(modifier = Modifier.fillMaxSize())
+                }
             }
         }
     }
