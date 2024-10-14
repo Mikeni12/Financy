@@ -1,4 +1,4 @@
-package mx.mikeni.financy
+package mx.mikeni.onboarding.signin
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,8 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import mx.mikeni.financy.ui.theme.Space16
-import mx.mikeni.financy.ui.theme.Space4
+import mx.mikeni.ui.Space16
+import mx.mikeni.ui.Space4
 
 @Composable
 fun SignInScreen(

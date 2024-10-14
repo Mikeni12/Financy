@@ -1,4 +1,4 @@
-package mx.mikeni.financy
+package mx.mikeni.home
 
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
@@ -7,15 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun SignUpScreen(
+fun HomeScreen(
         modifier: Modifier = Modifier,
         onButtonListener: () -> Unit
 ) {
-    Text("SignUp")
+    Text("Home")
     Button(
             onClick = onButtonListener,
             modifier = Modifier.wrapContentSize()
     ) {
-        Text("Sign In")
+        Text("Sign Up")
     }
 }

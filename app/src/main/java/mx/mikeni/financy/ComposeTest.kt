@@ -16,8 +16,6 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,10 +24,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
-import mx.mikeni.financy.ui.theme.FinancyTheme
-import mx.mikeni.financy.ui.theme.GreenDark
-import mx.mikeni.financy.ui.theme.GreenLight
-import mx.mikeni.financy.ui.theme.Space16
+import mx.mikeni.ui.FinancyTheme
+import mx.mikeni.ui.GreenDark
+import mx.mikeni.ui.GreenLight
+import mx.mikeni.ui.Space16
+import mx.mikeni.home.HomeScreen
+import mx.mikeni.onboarding.signin.SignInScreen
+import mx.mikeni.onboarding.signup.SignUpScreen
 
 @Composable
 fun Test(modifier: Modifier = Modifier) {
@@ -110,24 +111,3 @@ fun MainScreen(modifier: Modifier = Modifier) {
         }
     }
 }
-
-@Composable
-fun CustomTextField(
-        value: String,
-        onValueChange: (String) -> Unit,
-        label: String,
-        modifier: Modifier = Modifier
-) {
-    OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            label = { Text(label) },
-            trailingIcon = {
-
-            },
-            singleLine = true,
-            shape = CircleShape,
-            modifier = Modifier.fillMaxWidth()
-    )
-}
-

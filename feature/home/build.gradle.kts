@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
-
 android {
-    namespace = "mx.mikeni.data"
+    namespace = "mx.mikeni.home"
     compileSdk = 34
 
     defaultConfig {
@@ -31,10 +31,8 @@ android {
 }
 
 dependencies {
-    api(platform("com.google.firebase:firebase-bom:33.4.0"))
-    api("com.google.firebase:firebase-analytics")
-    api("com.google.firebase:firebase-firestore")
-    api("com.google.firebase:firebase-auth")
+    implementation(project(":core:data"))
+    implementation(project(":core:ui"))
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

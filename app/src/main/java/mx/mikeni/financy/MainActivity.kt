@@ -12,7 +12,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import mx.mikeni.data.AuthRemoteDataSource
 import mx.mikeni.data.UsersRemoteDataSource
-import mx.mikeni.financy.ui.theme.FinancyTheme
+import mx.mikeni.ui.FinancyTheme
 
 class MainActivity : ComponentActivity() {
 

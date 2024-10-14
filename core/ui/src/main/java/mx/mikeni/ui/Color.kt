@@ -1,4 +1,4 @@
-package mx.mikeni.financy.ui.theme
+package mx.mikeni.ui
 
 import androidx.compose.ui.graphics.Color
 

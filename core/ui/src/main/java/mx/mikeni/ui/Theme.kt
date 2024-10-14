@@ -1,6 +1,5 @@
-package mx.mikeni.financy.ui.theme
+package mx.mikeni.ui
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
