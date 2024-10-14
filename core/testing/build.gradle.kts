@@ -30,12 +30,9 @@ android {
 }
 
 dependencies {
-    val mockkVersion = "1.13.13"
-    api("io.mockk:mockk-android:${mockkVersion}")
-    api("io.mockk:mockk-agent:${mockkVersion}")
+    api(kotlin("test"))
     api(libs.mockk.android)
     api(libs.mockk.agent)
-    api("org.mockito.kotlin:mockito-kotlin:4.1.0")
     api(libs.kotlinx.coroutines.android)
     api(libs.kotlinx.coroutines.test)
     api(libs.androidx.junit)
