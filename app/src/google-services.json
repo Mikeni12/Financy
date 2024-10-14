@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "896743943116",
+    "project_id": "financy-83ec7",
+    "storage_bucket": "financy-83ec7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896743943116:android:04fa26f5b904b4b8d58b69",
+        "android_client_info": {
+          "package_name": "mx.mikeni.financy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_O-zObnQN39irYHgHszaduV62_rusnLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
