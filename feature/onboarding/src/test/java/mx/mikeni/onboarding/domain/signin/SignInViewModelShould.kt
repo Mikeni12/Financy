@@ -38,7 +38,7 @@ class SignInViewModelShould {
     fun setUp() = MockKAnnotations.init(this, true)
 
     @Test
-    fun `Sign in with email and password when signIn is called`() = runTest {
+    fun `Return User Id when signIn is called`() = runTest {
         val signInUiModelState = SignInUiModel(userId = ANY_USER_ID)
         coEvery { signInUseCase.signIn(ANY_USER_EMAIL, ANY_USER_PASSWORD) } returns Result.success(ANY_USER_ID)
 
