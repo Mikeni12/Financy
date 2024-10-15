@@ -1,6 +1,5 @@
 package mx.mikeni.onboarding.signin.ui
 
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,24 +22,23 @@ class SignInViewModel(private val signInUseCase: ISignInUseCase) : ViewModel() {
         _signInUiModel.update { SignInUiModel(showProgress = true) }
         val matches = Patterns.EMAIL_ADDRESS.matcher(email).matches()
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("totopito", "signIn: $email, $password")
             val result = signInUseCase.signIn(email, password)
             withContext(Dispatchers.Main) {
-                result.onSuccess { signInSuccess() }
+                result.onSuccess { signInSuccess(it) }
                         .onFailure { signInFailure(it) }
             }
         }
     }
 
-    private fun signInSuccess() {
-        emitSignInUiState(showSuccess = true)
+    private fun signInSuccess(userId: String) {
+        emitSignInUiState(userId = userId)
     }
 
     private fun signInFailure(throwable: Throwable) {
         emitSignInUiState(throwable = throwable)
     }
 
-    private fun emitSignInUiState(showProgress: Boolean = false, showSuccess: Boolean = false, throwable: Throwable? = null) {
-        _signInUiModel.update { SignInUiModel(showProgress, showSuccess, throwable) }
+    private fun emitSignInUiState(showProgress: Boolean = false, userId: String? = null, throwable: Throwable? = null) {
+        _signInUiModel.update { SignInUiModel(showProgress, userId, throwable) }
     }
 }

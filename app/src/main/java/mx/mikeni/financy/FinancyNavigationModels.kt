@@ -3,10 +3,10 @@ package mx.mikeni.financy
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object Home
+data object SignIn
 
 @Serializable
 data object SignUp
 
 @Serializable
-data object SignIn
+data class Home(val userId: String)

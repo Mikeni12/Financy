@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import kotlinx.coroutines.launch
@@ -44,13 +45,13 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SignInScreen(
-        onSignInListener: () -> Unit,
+        onSignInListener: (String) -> Unit,
         onSignUpListener: () -> Unit,
         modifier: Modifier = Modifier,
         viewModel: SignInViewModel = koinViewModel<SignInViewModel>()
 ) {
     val signInUiModel by viewModel.signInUiModel.collectAsState()
-    var email by remember { mutableStateOf("miguel.alpizar@financy.mx") }
+    var email by remember { mutableStateOf("evelin.garcia@financy.mx") }
     var password by remember { mutableStateOf("Password123!") }
     var isPasswordVisible by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
@@ -68,6 +69,7 @@ fun SignInScreen(
                 email = email,
                 password = password,
                 isPasswordVisible = isPasswordVisible,
+                showProgress = signInUiModel.showProgress,
                 onEmailChangedListener = { email = it },
                 onPasswordChangedListener = { password = it },
                 onPasswordVisibilityListener = { isPasswordVisible = !isPasswordVisible },
@@ -82,8 +84,7 @@ fun SignInScreen(
         )
         with(signInUiModel) {
             when {
-                showProgress -> CircularProgressIndicator()
-                showSuccess -> onSignInListener()
+                userId != null -> onSignInListener(userId)
                 error != null -> {
                     scope.launch {
                         snackBarHostState.showSnackbar(error.message.orEmpty())
@@ -99,6 +100,7 @@ private fun SignInContent(
         email: String,
         password: String,
         isPasswordVisible: Boolean,
+        showProgress: Boolean,
         onEmailChangedListener: (String) -> Unit,
         onPasswordChangedListener: (String) -> Unit,
         onPasswordVisibilityListener: () -> Unit,
@@ -143,18 +145,31 @@ private fun SignInContent(
                 },
                 modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(Space64))
         Button(
                 onClick = onSignInListener,
                 modifier = Modifier.wrapContentSize()
         ) {
-            Text("Sign In")
+            if (showProgress) {
+                CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.wrapContentSize()
+                )
+            } else {
+                Text("Sign In")
+            }
         }
         Row(
                 horizontalArrangement = Arrangement.spacedBy(Space4),
         ) {
-            Text("Don't have an account?")
+            Text(
+                    text = "Don't have an account?",
+                    style = MaterialTheme.typography.bodyLarge
+            )
             Text(
                     text = "Sign Up",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable(onClick = onSignUpListener)
             )
         }

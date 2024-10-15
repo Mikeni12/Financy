@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import mx.mikeni.home.ui.HomeScreen
 import mx.mikeni.onboarding.signin.ui.SignInScreen
 import mx.mikeni.onboarding.signup.ui.SignUpScreen
@@ -17,31 +18,35 @@ fun MainScreen(modifier: Modifier = Modifier) {
     val screenModifier = Modifier.fillMaxSize()
     NavHost(
             navController = navController,
-            startDestination = Home,
+            startDestination = SignIn,
             modifier = modifier,
             contentAlignment = Alignment.Center
 
     ) {
-        composable<Home> {
-            HomeScreen(screenModifier) {
-                navController.navigate(SignIn)
-            }
-        }
-        composable<SignUp> {
-            SignUpScreen(screenModifier) {
-                navController.navigate(SignIn)
-            }
-        }
         composable<SignIn> {
             SignInScreen(
                     onSignInListener = {
-                        navController.navigate(Home)
+                        navController.navigate(Home(it))
                     },
                     onSignUpListener = {
                         navController.navigate(SignUp)
                     },
                     modifier = screenModifier
             )
+        }
+        composable<SignUp> {
+            SignUpScreen(screenModifier) {
+                navController.navigate(Home(it))
+            }
+        }
+        composable<Home> {
+            val arguments = it.toRoute<Home>()
+            HomeScreen(
+                    userId = arguments.userId,
+                    modifier = screenModifier
+            ) {
+                navController.navigate(SignIn)
+            }
         }
     }
 }

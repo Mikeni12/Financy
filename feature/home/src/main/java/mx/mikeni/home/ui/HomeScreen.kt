@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material3.CircularProgressIndicator
@@ -31,13 +32,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 import mx.mikeni.ui.Space16
+import mx.mikeni.ui.Space384
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+        userId: String,
         modifier: Modifier = Modifier,
         viewModel: HomeViewModel = koinViewModel<HomeViewModel>(),
         onSignOutListener: () -> Unit
@@ -50,14 +54,14 @@ fun HomeScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     LaunchedEffect(true) {
-        viewModel.getUser("SkBBdUQwDGRfsnLxeTIXIFjqVBH2")
+        viewModel.getUser(userId)
     }
 
     Scaffold(
             topBar = {
                 LargeTopAppBar(
                         title = {
-                            if (scrollBehavior.state.collapsedFraction > 0.5f) {
+                            if (scrollBehavior.state.collapsedFraction > AppBarExpandedFraction) {
                                 Text("Explore your finances today!")
                             } else {
                                 homeUiModel.userUi?.let {
@@ -131,14 +135,27 @@ private fun HomeContent(
                 }
 
                 userUi != null -> {
-                    MovementList(
-                            movementUiList = userUi.movementUiList,
-                            onMovementListener = onMovementListener,
-                    )
+                    if (userUi.movementUiList.isEmpty()) {
+                        AsyncImage(
+                                model = "https://i.pinimg.com/originals/ce/a0/0d/cea00d5472fb477c9d2bf8724fac768d.jpg",
+                                contentDescription = null,
+                                modifier = Modifier
+                                        .size(Space384)
+                                        .align(Alignment.Center)
+                        )
+                    } else {
+                        MovementList(
+                                movementUiList = userUi.movementUiList,
+                                onMovementListener = onMovementListener,
+                        )
+                    }
                 }
 
                 error != null -> {
-
+                    Text(
+                            text = error.message.orEmpty(),
+                            modifier = Modifier.align(Alignment.Center)
+                    )
                 }
             }
         }
@@ -146,3 +163,4 @@ private fun HomeContent(
 }
 
 private const val InitialSelectedMovementUiIndex = -1
+private const val AppBarExpandedFraction = 0.5f

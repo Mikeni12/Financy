@@ -1,6 +1,7 @@
 package mx.mikeni.onboarding.signup.ui
 
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +19,10 @@ fun UserFormScreen(
         onLastNameChangedListener: (String) -> Unit,
         modifier: Modifier = Modifier
 ) {
+    Text(
+            text = "Fill the form to start your registration",
+            style = MaterialTheme.typography.titleLarge,
+    )
     OutlinedTextField(
             value = email,
             onValueChange = onEmailChangedListener,
