@@ -5,6 +5,7 @@ import mx.mikeni.onboarding.signin.domain.SignInUseCase
 import mx.mikeni.onboarding.signin.ui.SignInViewModel
 import mx.mikeni.onboarding.signup.domain.ISignUpUseCase
 import mx.mikeni.onboarding.signup.domain.SignUpUseCase
+import mx.mikeni.onboarding.signup.ui.SignUpViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -14,4 +15,5 @@ val onboardingModule = module {
     factoryOf(::SignInUseCase).bind<ISignInUseCase>()
     factoryOf(::SignUpUseCase).bind<ISignUpUseCase>()
     viewModelOf(::SignInViewModel)
+    viewModelOf(::SignUpViewModel)
 }
