@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import mx.mikeni.home.HomeScreen
+import mx.mikeni.home.ui.HomeScreen
 import mx.mikeni.onboarding.signin.ui.SignInScreen
 import mx.mikeni.onboarding.signup.ui.SignUpScreen
 

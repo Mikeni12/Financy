@@ -1,4 +1,4 @@
-package mx.mikeni.home
+package mx.mikeni.home.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
