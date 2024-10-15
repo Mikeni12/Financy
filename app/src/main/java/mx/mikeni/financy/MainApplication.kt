@@ -2,6 +2,7 @@ package mx.mikeni.financy
 
 import android.app.Application
 import mx.mikeni.data.di.dataModule
+import mx.mikeni.home.di.homeModule
 import mx.mikeni.onboarding.di.onboardingModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -9,7 +10,7 @@ import org.koin.core.context.startKoin
 
 class MainApplication : Application() {
 
-    private val appModules = listOf(dataModule, onboardingModule)
+    private val appModules = listOf(dataModule, onboardingModule, homeModule)
 
     override fun onCreate() {
         super.onCreate()
