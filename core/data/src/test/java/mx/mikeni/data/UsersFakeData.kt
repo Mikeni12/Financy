@@ -1,4 +1,4 @@
-package mx.mikeni.onboarding
+package mx.mikeni.data
 
 const val ANY_USER_EMAIL = "miguel.alpizar@financy.mx"
 const val ANY_USER_PASSWORD = "Password123!"
