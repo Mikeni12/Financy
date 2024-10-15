@@ -11,7 +11,7 @@ internal class UsersRemoteDataSource(private val firebaseFirestore: FirebaseFire
                                      private val firebaseStorage: FirebaseStorage) : IUsersRemoteDataSource {
 
     override suspend fun setPhotoId(photoId: Uri): Result<String> = try {
-        val storageRef = firebaseStorage.reference.child("images/${photoId.lastPathSegment}")
+        val storageRef = firebaseStorage.reference.child("$IMAGES_COLLECTION/${photoId.lastPathSegment}")
         val result = storageRef.putFile(photoId).await()
         val downloadUrl = result.storage.downloadUrl.await()
         Result.success(downloadUrl.toString())
@@ -23,7 +23,7 @@ internal class UsersRemoteDataSource(private val firebaseFirestore: FirebaseFire
         val result = firebaseFirestore.collection(USERS_COLLECTION).document(userId).get().await()
         val userResponse = result.toObject(UserResponse::class.java)
         val user = userResponse?.toUser(userId)
-        if (user != null) Result.success(user) else Result.failure(Throwable("User not found"))
+        if (user != null) Result.success(user) else Result.failure(UserException.UserNotFoundException)
     } catch (e: Exception) {
         Result.failure(e)
     }
@@ -36,6 +36,7 @@ internal class UsersRemoteDataSource(private val firebaseFirestore: FirebaseFire
     }
 
     companion object {
-        private const val USERS_COLLECTION = "users"
+        const val USERS_COLLECTION = "users"
+        const val IMAGES_COLLECTION = "images"
     }
 }

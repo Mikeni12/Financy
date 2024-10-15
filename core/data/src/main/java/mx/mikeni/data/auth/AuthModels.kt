@@ -7,9 +7,16 @@ data class AuthRequest(val email: String,
                        val photoUrl: String)
 
 fun AuthRequest.toAuthMap() = mapOf(
-        "email" to email,
-        "password" to password,
-        "name" to name,
-        "lastName" to lastName,
-        "photoId" to photoUrl,
-        "movements" to emptyList<String>())
+        AUTH_EMAIL to email,
+        AUTH_PASSWORD to password,
+        AUTH_NAME to name,
+        AUTH_LAST_NAME to lastName,
+        AUTH_PHOTO_ID to photoUrl,
+        AUTH_MOVEMENTS to emptyList<String>())
+
+private const val AUTH_EMAIL = "email"
+private const val AUTH_PASSWORD = "password"
+private const val AUTH_NAME = "name"
+private const val AUTH_LAST_NAME = "lastName"
+private const val AUTH_PHOTO_ID = "photoId"
+private const val AUTH_MOVEMENTS = "movements"
