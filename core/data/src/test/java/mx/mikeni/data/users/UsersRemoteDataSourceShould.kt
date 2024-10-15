@@ -12,7 +12,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlin.test.assertEquals
 import kotlinx.coroutines.test.runTest
-import mx.mikeni.data.ANY_USER_ID
+import mx.mikeni.ANY_USER_ID
 import mx.mikeni.data.givenUser
 import mx.mikeni.data.givenUserMap
 import mx.mikeni.data.givenUserResponse

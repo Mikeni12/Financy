@@ -9,9 +9,9 @@ import io.mockk.mockk
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlinx.coroutines.test.runTest
-import mx.mikeni.data.ANY_USER_EMAIL
-import mx.mikeni.data.ANY_USER_ID
-import mx.mikeni.data.ANY_USER_PASSWORD
+import mx.mikeni.ANY_USER_EMAIL
+import mx.mikeni.ANY_USER_ID
+import mx.mikeni.ANY_USER_PASSWORD
 import mx.mikeni.data.auth.AuthException.SignInException
 import mx.mikeni.data.auth.AuthException.SignUpException
 import org.junit.Before

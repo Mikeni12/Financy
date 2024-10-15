@@ -12,9 +12,9 @@ import io.mockk.verify
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlinx.coroutines.test.runTest
-import mx.mikeni.data.ANY_USER_EMAIL
-import mx.mikeni.data.ANY_USER_ID
-import mx.mikeni.data.ANY_USER_PASSWORD
+import mx.mikeni.ANY_USER_EMAIL
+import mx.mikeni.ANY_USER_ID
+import mx.mikeni.ANY_USER_PASSWORD
 import org.junit.Before
 import org.junit.Test
 

@@ -14,9 +14,9 @@ fun AuthRequest.toAuthMap() = mapOf(
         AUTH_PHOTO_ID to photoUrl,
         AUTH_MOVEMENTS to emptyList<String>())
 
-private const val AUTH_EMAIL = "email"
-private const val AUTH_PASSWORD = "password"
-private const val AUTH_NAME = "name"
-private const val AUTH_LAST_NAME = "lastName"
-private const val AUTH_PHOTO_ID = "photoId"
-private const val AUTH_MOVEMENTS = "movements"
+const val AUTH_EMAIL = "email"
+const val AUTH_PASSWORD = "password"
+const val AUTH_NAME = "name"
+const val AUTH_LAST_NAME = "lastName"
+const val AUTH_PHOTO_ID = "photoId"
+const val AUTH_MOVEMENTS = "movements"

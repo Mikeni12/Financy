@@ -7,7 +7,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlin.test.assertEquals
 import kotlinx.coroutines.test.runTest
-import mx.mikeni.data.ANY_USER_ID
+import mx.mikeni.ANY_USER_ID
 import mx.mikeni.data.givenUser
 import org.junit.Before
 import org.junit.Test

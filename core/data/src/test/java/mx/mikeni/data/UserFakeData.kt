@@ -1,16 +1,19 @@
 package mx.mikeni.data
 
+import mx.mikeni.ANY_USER_EMAIL
+import mx.mikeni.ANY_USER_ID
+import mx.mikeni.ANY_USER_LAST_NAME
+import mx.mikeni.ANY_USER_NAME
+import mx.mikeni.ANY_USER_PHOTO_ID
+import mx.mikeni.data.auth.AUTH_EMAIL
+import mx.mikeni.data.auth.AUTH_LAST_NAME
+import mx.mikeni.data.auth.AUTH_MOVEMENTS
+import mx.mikeni.data.auth.AUTH_NAME
+import mx.mikeni.data.auth.AUTH_PHOTO_ID
 import mx.mikeni.data.users.Movement
 import mx.mikeni.data.users.MovementResponse
 import mx.mikeni.data.users.User
 import mx.mikeni.data.users.UserResponse
-
-const val ANY_USER_ID = "fOgVo4qWUiRaTjSBGQ9igumIU7o1"
-const val ANY_USER_EMAIL = "miguel.alpizar@financy.mx"
-const val ANY_USER_PASSWORD = "Password123!"
-private const val ANY_USER_NAME = "Miguel"
-private const val ANY_USER_LAST_NAME = "Alpizar"
-private const val ANY_USER_PHOTO_ID = "photoId"
 
 private const val ANY_MOVEMENT_TITLE = "Received cashback"
 private const val ANY_MOVEMENT_DESCRIPTION = "Transfered Money"
@@ -42,11 +45,11 @@ private fun givenMovement() = Movement(
         isPositive = ANY_MOVEMENT_IS_POSITIVE)
 
 fun givenUserMap() = mapOf(
-        "name" to ANY_USER_NAME,
-        "lastName" to ANY_USER_LAST_NAME,
-        "email" to ANY_USER_EMAIL,
-        "photoId" to ANY_USER_PHOTO_ID,
-        "movements" to listOf(givenMovementMap()))
+        AUTH_NAME to ANY_USER_NAME,
+        AUTH_LAST_NAME to ANY_USER_LAST_NAME,
+        AUTH_EMAIL to ANY_USER_EMAIL,
+        AUTH_PHOTO_ID to ANY_USER_PHOTO_ID,
+        AUTH_MOVEMENTS to listOf(givenMovementMap()))
 
 private fun givenMovementMap() = mapOf(
         "title" to ANY_MOVEMENT_TITLE,
