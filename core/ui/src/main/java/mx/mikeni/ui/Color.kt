@@ -17,3 +17,6 @@ val Error = Color(color = 0xFFDE1135)
 val Success = Color(color = 0xFF008263)
 
 val Neutral00 = Color(color = 0xFFFFFFFF)
+val Neutral40 = Color(color = 0xFFFBFAF7)
+val Neutral100 = Color(color = 0xFFC0BCB2)
+

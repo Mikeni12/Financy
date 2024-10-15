@@ -42,6 +42,7 @@ dependencies {
     api(libs.androidx.material3)
     api(libs.androidx.navigation.compose)
     api(libs.androidx.lifecycle.viewmodel.compose)
+    api(libs.coil.compose)
 
     debugApi(libs.androidx.ui.tooling)
     debugApi(libs.androidx.ui.test.manifest)
