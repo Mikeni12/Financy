@@ -32,5 +32,5 @@ android {
 dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:ui"))
-    implementation(libs.androidx.core.ktx)
+    testImplementation(project(":core:testing"))
 }
