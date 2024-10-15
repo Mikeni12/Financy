@@ -10,3 +10,4 @@ val Space16 = 16.dp
 val Space32 = 32.dp
 val Space64 = 64.dp
 val Space128 = 128.dp
+val Space384 = 384.dp

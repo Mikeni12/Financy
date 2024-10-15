@@ -37,8 +37,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import kotlinx.coroutines.launch
 import mx.mikeni.ui.ErrorSnackBar
-import mx.mikeni.ui.Space16
+import mx.mikeni.ui.Space32
 import mx.mikeni.ui.Space4
+import mx.mikeni.ui.Space64
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -61,7 +62,6 @@ fun SignInScreen(
                     ErrorSnackBar(message = it.visuals.message)
                 }
             },
-            containerColor = MaterialTheme.colorScheme.background,
             modifier = modifier
     ) { paddingValues ->
         SignInContent(
@@ -76,7 +76,9 @@ fun SignInScreen(
                     viewModel.signIn(email, password)
                 },
                 onSignUpListener = onSignUpListener,
-                modifier = modifier.padding(paddingValues)
+                modifier = modifier
+                        .padding(paddingValues)
+                        .padding(Space32)
         )
         with(signInUiModel) {
             when {
@@ -105,6 +107,7 @@ private fun SignInContent(
         modifier: Modifier = Modifier
 ) {
     Column(
+            verticalArrangement = Arrangement.spacedBy(Space64),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier
     ) {
@@ -112,9 +115,7 @@ private fun SignInContent(
                 text = "Welcome Back!",
                 style = MaterialTheme.typography.displayLarge
         )
-        Spacer(modifier = Modifier.height(Space16))
-        Spacer(modifier = Modifier.height(Space16))
-        Spacer(modifier = Modifier.height(Space16))
+        Spacer(modifier = Modifier.height(Space32))
         OutlinedTextField(
                 value = email,
                 onValueChange = onEmailChangedListener,
