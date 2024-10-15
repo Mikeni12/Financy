@@ -20,7 +20,8 @@ class SignInViewModel(private val signInUseCase: ISignInUseCase) : ViewModel() {
 
     fun signIn(email: String, password: String) {
         _signInUiModel.update { SignInUiModel(showProgress = true) }
-        val matches = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) return emitSignInUiState(isEmailError = true)
+        if (!PASSWORD_PATTERN.toRegex().matches(password)) return emitSignInUiState(isPasswordError = true)
         viewModelScope.launch(Dispatchers.IO) {
             val result = signInUseCase.signIn(email, password)
             withContext(Dispatchers.Main) {
@@ -38,7 +39,20 @@ class SignInViewModel(private val signInUseCase: ISignInUseCase) : ViewModel() {
         emitSignInUiState(throwable = throwable)
     }
 
-    private fun emitSignInUiState(showProgress: Boolean = false, userId: String? = null, throwable: Throwable? = null) {
-        _signInUiModel.update { SignInUiModel(showProgress, userId, throwable) }
+    private fun emitSignInUiState(showProgress: Boolean = false,
+                                  isEmailError: Boolean = false,
+                                  isPasswordError: Boolean = false,
+                                  userId: String? = null,
+                                  throwable: Throwable? = null) = _signInUiModel.update {
+        SignInUiModel(
+                showProgress = showProgress,
+                isEmailError = isEmailError,
+                isPasswordError = isPasswordError,
+                userId = userId,
+                error = throwable)
+    }
+
+    companion object {
+        const val PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
     }
 }

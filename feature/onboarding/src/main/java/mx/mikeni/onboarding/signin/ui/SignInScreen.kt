@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -51,8 +52,8 @@ fun SignInScreen(
         viewModel: SignInViewModel = koinViewModel<SignInViewModel>()
 ) {
     val signInUiModel by viewModel.signInUiModel.collectAsState()
-    var email by remember { mutableStateOf("evelin.garcia@financy.mx") }
-    var password by remember { mutableStateOf("Password123!") }
+    var email by remember { mutableStateOf(String()) }
+    var password by remember { mutableStateOf(String()) }
     var isPasswordVisible by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
     val focusManager = LocalFocusManager.current
@@ -69,6 +70,8 @@ fun SignInScreen(
                 email = email,
                 password = password,
                 isPasswordVisible = isPasswordVisible,
+                isEmailError = signInUiModel.isEmailError,
+                isPasswordError = signInUiModel.isPasswordError,
                 showProgress = signInUiModel.showProgress,
                 onEmailChangedListener = { email = it },
                 onPasswordChangedListener = { password = it },
@@ -100,6 +103,8 @@ private fun SignInContent(
         email: String,
         password: String,
         isPasswordVisible: Boolean,
+        isEmailError: Boolean,
+        isPasswordError: Boolean,
         showProgress: Boolean,
         onEmailChangedListener: (String) -> Unit,
         onPasswordChangedListener: (String) -> Unit,
@@ -124,6 +129,22 @@ private fun SignInContent(
                 label = { Text("Email") },
                 singleLine = true,
                 shape = CircleShape,
+                trailingIcon = {
+                    if (isEmailError) {
+                        Icon(
+                                imageVector = Icons.Filled.Error,
+                                contentDescription = null
+                        )
+                    }
+                },
+                isError = isEmailError,
+                supportingText = {
+                    if (isEmailError) {
+                        Text(
+                                text = "Invalid email"
+                        )
+                    }
+                },
                 modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
@@ -140,6 +161,14 @@ private fun SignInContent(
                         Icon(
                                 imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                                 contentDescription = null
+                        )
+                    }
+                },
+                isError = isPasswordError,
+                supportingText = {
+                    if (isPasswordError) {
+                        Text(
+                                text = "Invalid password, must be minimum eight characters, at least one letter and one number"
                         )
                     }
                 },
