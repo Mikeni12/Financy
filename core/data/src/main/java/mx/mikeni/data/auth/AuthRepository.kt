@@ -1,6 +1,6 @@
 package mx.mikeni.data.auth
 
-class AuthRepository(private val authRemoteDataSource: IAuthRemoteDataSource) : IAuthRepository {
+internal class AuthRepository(private val authRemoteDataSource: IAuthRemoteDataSource) : IAuthRepository {
 
     override suspend fun signIn(email: String, password: String) = authRemoteDataSource.signIn(email, password)
 

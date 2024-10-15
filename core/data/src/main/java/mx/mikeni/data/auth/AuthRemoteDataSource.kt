@@ -3,7 +3,7 @@ package mx.mikeni.data.auth
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
 
-class AuthRemoteDataSource(private val firebaseAuth: FirebaseAuth) : IAuthRemoteDataSource {
+internal class AuthRemoteDataSource(private val firebaseAuth: FirebaseAuth) : IAuthRemoteDataSource {
 
     override suspend fun signIn(email: String, password: String): Result<String> = try {
         val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()

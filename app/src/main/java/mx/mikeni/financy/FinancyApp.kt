@@ -17,7 +17,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
     val screenModifier = Modifier.fillMaxSize()
     NavHost(
             navController = navController,
-            startDestination = SignUp,
+            startDestination = Home,
             modifier = modifier,
             contentAlignment = Alignment.Center
 
