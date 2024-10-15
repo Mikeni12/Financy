@@ -1,5 +1,6 @@
 package mx.mikeni.onboarding.signup.ui
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -17,10 +18,10 @@ class SignUpViewModel(private val signUpUseCase: ISignUpUseCase) : ViewModel() {
     val signUpUiModel: StateFlow<SignUpUiModel>
         get() = _signUpUiModel
 
-    fun signUp(email: String, password: String) {
+    fun signUp(email: String, password: String, name: String, lastName: String, photoId: Uri) {
         emitSignUpUiState(showProgress = true)
         viewModelScope.launch(Dispatchers.IO) {
-            val result = signUpUseCase.signUp(email, password)
+            val result = signUpUseCase.signUp(email, password, name, lastName, photoId)
             withContext(Dispatchers.Main) {
                 result.onSuccess { signUpSuccess(it) }
                         .onFailure { signUpFailure(it) }

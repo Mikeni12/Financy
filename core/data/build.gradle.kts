@@ -30,14 +30,14 @@ android {
 
 dependencies {
     testImplementation(project(":core:testing"))
-    api(libs.kotlinx.coroutines.android)
-    api(platform(libs.firebase.bom))
-    api(libs.firebase.analytics)
-    api(libs.firebase.auth)
-    api(libs.firebase.firestore)
     api(platform(libs.koin.bom))
     api(libs.koin.android)
     api(libs.koin.androidx.compose)
     api(libs.koin.androidx.compose.navigation)
+    api(libs.kotlinx.coroutines.android)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
     implementation(libs.androidx.core.ktx)
 }

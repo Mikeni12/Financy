@@ -70,7 +70,7 @@ fun SignUpScreen(
                 onLastNameChangedListener = { lastName = it },
                 onTakePhotoListener = { currentPhotoUri = it },
                 onSignUpListener = {
-                    viewModel.signUp(email, password)
+                    viewModel.signUp(email, password, name, lastName, currentPhotoUri)
                 },
                 modifier = modifier.padding(paddingValues)
         )

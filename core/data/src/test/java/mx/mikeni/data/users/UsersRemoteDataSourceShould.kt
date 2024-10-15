@@ -3,6 +3,7 @@ package mx.mikeni.data.users
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -23,8 +24,11 @@ class UsersRemoteDataSourceShould {
     @MockK
     private val firebaseFirestore = mockk<FirebaseFirestore>()
 
+    @MockK
+    private val firebaseStorage = mockk<FirebaseStorage>()
+
     @InjectMockKs
-    private var usersRemoteDataSource = UsersRemoteDataSource(firebaseFirestore)
+    private var usersRemoteDataSource = UsersRemoteDataSource(firebaseFirestore, firebaseStorage)
 
     @Before
     fun setUp() = MockKAnnotations.init(this, true)
