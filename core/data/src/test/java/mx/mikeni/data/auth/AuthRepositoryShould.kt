@@ -9,6 +9,9 @@ import io.mockk.mockk
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlinx.coroutines.test.runTest
+import mx.mikeni.data.ANY_USER_EMAIL
+import mx.mikeni.data.ANY_USER_ID
+import mx.mikeni.data.ANY_USER_PASSWORD
 import mx.mikeni.data.auth.AuthException.SignInException
 import mx.mikeni.data.auth.AuthException.SignUpException
 import org.junit.Before
@@ -27,41 +30,41 @@ class AuthRepositoryShould {
 
     @Test
     fun `Return User id when signIn is called`() = runTest {
-        coEvery { authRemoteDataSource.signIn(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD) } returns Result.success(mx.mikeni.data.ANY_USER_ID)
+        coEvery { authRemoteDataSource.signIn(ANY_USER_EMAIL, ANY_USER_PASSWORD) } returns Result.success(ANY_USER_ID)
 
-        val result = authRepository.signIn(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD).getOrNull()
+        val result = authRepository.signIn(ANY_USER_EMAIL, ANY_USER_PASSWORD).getOrNull()
 
-        coVerify { authRemoteDataSource.signIn(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD) }
-        assertEquals(mx.mikeni.data.ANY_USER_ID, result)
+        coVerify { authRemoteDataSource.signIn(ANY_USER_EMAIL, ANY_USER_PASSWORD) }
+        assertEquals(ANY_USER_ID, result)
     }
 
     @Test
     fun `Return error when signIn is called`() = runTest {
-        coEvery { authRemoteDataSource.signIn(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD) } returns Result.failure(SignInException)
+        coEvery { authRemoteDataSource.signIn(ANY_USER_EMAIL, ANY_USER_PASSWORD) } returns Result.failure(SignInException)
 
-        val result = authRepository.signIn(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD).exceptionOrNull()
+        val result = authRepository.signIn(ANY_USER_EMAIL, ANY_USER_PASSWORD).exceptionOrNull()
 
-        coVerify { authRemoteDataSource.signIn(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD) }
+        coVerify { authRemoteDataSource.signIn(ANY_USER_EMAIL, ANY_USER_PASSWORD) }
         assertIs<SignInException>(result)
     }
 
     @Test
     fun `Return User id when signUp is called`() = runTest {
-        coEvery { authRemoteDataSource.signUp(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD) } returns Result.success(mx.mikeni.data.ANY_USER_ID)
+        coEvery { authRemoteDataSource.signUp(ANY_USER_EMAIL, ANY_USER_PASSWORD) } returns Result.success(ANY_USER_ID)
 
-        val result = authRepository.signUp(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD).getOrNull()
+        val result = authRepository.signUp(ANY_USER_EMAIL, ANY_USER_PASSWORD).getOrNull()
 
-        coVerify { authRemoteDataSource.signUp(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD) }
-        assertEquals(mx.mikeni.data.ANY_USER_ID, result)
+        coVerify { authRemoteDataSource.signUp(ANY_USER_EMAIL, ANY_USER_PASSWORD) }
+        assertEquals(ANY_USER_ID, result)
     }
 
     @Test
     fun `Return error when signUp is called`() = runTest {
-        coEvery { authRemoteDataSource.signUp(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD) } returns Result.failure(SignUpException)
+        coEvery { authRemoteDataSource.signUp(ANY_USER_EMAIL, ANY_USER_PASSWORD) } returns Result.failure(SignUpException)
 
-        val result = authRepository.signUp(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD).exceptionOrNull()
+        val result = authRepository.signUp(ANY_USER_EMAIL, ANY_USER_PASSWORD).exceptionOrNull()
 
-        coVerify { authRemoteDataSource.signUp(mx.mikeni.data.ANY_USER_EMAIL, mx.mikeni.data.ANY_USER_PASSWORD) }
+        coVerify { authRemoteDataSource.signUp(ANY_USER_EMAIL, ANY_USER_PASSWORD) }
         assertIs<SignUpException>(result)
     }
 }

@@ -7,7 +7,8 @@ internal class AuthRemoteDataSource(private val firebaseAuth: FirebaseAuth) : IA
 
     override suspend fun signIn(email: String, password: String): Result<String> = try {
         val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-        Result.success(result.user?.uid.orEmpty())
+        val userId = result.user?.uid
+        if (userId != null) Result.success(userId) else Result.failure(AuthException.UserNotFoundException)
     } catch (e: Exception) {
         Result.failure(AuthException.SignInException)
     }

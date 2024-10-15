@@ -8,4 +8,8 @@ sealed class AuthException(message: String) : Throwable(message) {
     data object SignUpException : AuthException("Couldn't sign up due to invalid credentials") {
         private fun readResolve(): Any = SignUpException
     }
+
+    data object UserNotFoundException : AuthException("User not found") {
+        private fun readResolve(): Any = UserNotFoundException
+    }
 }
