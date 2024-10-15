@@ -5,15 +5,15 @@ import mx.mikeni.data.di.firebaseModule
 import mx.mikeni.onboarding.signin.di.signInModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.androix.startup.KoinStartup.onKoinStartup
+import org.koin.core.context.startKoin
 
-@Suppress("OPT_IN_USAGE")
 class MainApplication : Application() {
 
     private val featuresModules = listOf(firebaseModule, signInModule)
 
-    init {
-        onKoinStartup {
+    override fun onCreate() {
+        super.onCreate()
+        startKoin {
             androidLogger()
             androidContext(this@MainApplication)
             modules(featuresModules)

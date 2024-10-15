@@ -37,7 +37,6 @@ dependencies {
     api(libs.firebase.firestore)
     api(platform(libs.koin.bom))
     api(libs.koin.android)
-    api(libs.koin.androidx.startup)
     api(libs.koin.androidx.compose)
     api(libs.koin.androidx.compose.navigation)
     implementation(libs.androidx.core.ktx)

@@ -41,7 +41,6 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koinBom" }
 koin-android = { group = "io.insert-koin", name = "koin-android" }
-koin-androidx-startup = { group = "io.insert-koin", name = "koin-androidx-startup" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
 koin-androidx-compose-navigation = { group = "io.insert-koin", name = "koin-androidx-compose-navigation" }
 mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockk" }
