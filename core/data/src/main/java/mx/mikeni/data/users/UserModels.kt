@@ -2,6 +2,7 @@ package mx.mikeni.data.users
 
 data class User(val id: String,
                 val name: String,
+                val lastName: String,
                 val email: String,
                 val photoId: String,
                 val movements: List<Movement>)
@@ -14,4 +15,4 @@ data class Movement(val title: String,
                     val dateShort: String,
                     val dateLong: String,
                     val time: String,
-                    val isPositive: String)
+                    val isPositive: Boolean)
