@@ -1,4 +1,4 @@
-package mx.mikeni.onboarding.signin.data
+package mx.mikeni.data.auth
 
 interface IAuthRepository {
     suspend fun signIn(email: String, password: String): Result<String>

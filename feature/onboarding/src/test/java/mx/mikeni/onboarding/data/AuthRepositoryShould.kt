@@ -15,7 +15,7 @@ import mx.mikeni.data.auth.IAuthRemoteDataSource
 import mx.mikeni.onboarding.ANY_USER_EMAIL
 import mx.mikeni.onboarding.ANY_USER_ID
 import mx.mikeni.onboarding.ANY_USER_PASSWORD
-import mx.mikeni.onboarding.signin.data.AuthRepository
+import mx.mikeni.data.auth.AuthRepository
 import org.junit.Before
 import org.junit.Test
 

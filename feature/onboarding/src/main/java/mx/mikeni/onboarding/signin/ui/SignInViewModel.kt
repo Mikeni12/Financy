@@ -1,6 +1,7 @@
 package mx.mikeni.onboarding.signin.ui
 
 import android.util.Log
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,7 @@ class SignInViewModel(private val signInUseCase: ISignInUseCase) : ViewModel() {
 
     fun signIn(email: String, password: String) {
         _signInUiModel.update { SignInUiModel(showProgress = true) }
+        val matches = Patterns.EMAIL_ADDRESS.matcher(email).matches()
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("totopito", "signIn: $email, $password")
             val result = signInUseCase.signIn(email, password)

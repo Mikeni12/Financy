@@ -1,6 +1,6 @@
-package mx.mikeni.onboarding.signin.domain
+package mx.mikeni.onboarding.signup.domain
 
-import mx.mikeni.onboarding.signin.data.IAuthRepository
+import mx.mikeni.data.auth.IAuthRepository
 
 class SignUpUseCase(private val authRepository: IAuthRepository) : ISignUpUseCase {
 

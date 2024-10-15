@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import mx.mikeni.home.HomeScreen
 import mx.mikeni.onboarding.signin.ui.SignInScreen
-import mx.mikeni.onboarding.signup.SignUpScreen
+import mx.mikeni.onboarding.signup.ui.SignUpScreen
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {

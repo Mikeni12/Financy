@@ -1,6 +1,4 @@
-package mx.mikeni.onboarding.signin.data
-
-import mx.mikeni.data.auth.IAuthRemoteDataSource
+package mx.mikeni.data.auth
 
 class AuthRepository(private val authRemoteDataSource: IAuthRemoteDataSource) : IAuthRepository {
 

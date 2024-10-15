@@ -1,4 +1,4 @@
-package mx.mikeni.onboarding.signup
+package mx.mikeni.onboarding.signup.ui
 
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button

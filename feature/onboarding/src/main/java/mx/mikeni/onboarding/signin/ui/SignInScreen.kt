@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -31,6 +32,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import kotlinx.coroutines.launch
@@ -51,6 +53,7 @@ fun SignInScreen(
     var password by remember { mutableStateOf("Password123!") }
     var isPasswordVisible by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
+    val focusManager = LocalFocusManager.current
     val scope = rememberCoroutineScope()
     Scaffold(
             snackbarHost = {
@@ -60,7 +63,7 @@ fun SignInScreen(
             },
             containerColor = MaterialTheme.colorScheme.background,
             modifier = modifier
-    ) {
+    ) { paddingValues ->
         SignInContent(
                 email = email,
                 password = password,
@@ -68,9 +71,12 @@ fun SignInScreen(
                 onEmailChangedListener = { email = it },
                 onPasswordChangedListener = { password = it },
                 onPasswordVisibilityListener = { isPasswordVisible = !isPasswordVisible },
-                onSignInListener = { viewModel.signIn(email, password) },
+                onSignInListener = {
+                    focusManager.clearFocus()
+                    viewModel.signIn(email, password)
+                },
                 onSignUpListener = onSignUpListener,
-                modifier = modifier
+                modifier = modifier.padding(paddingValues)
         )
         with(signInUiModel) {
             when {
