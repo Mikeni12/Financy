@@ -1,6 +1,8 @@
 package mx.mikeni.home.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -9,11 +11,14 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,6 +30,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import kotlinx.coroutines.launch
 import mx.mikeni.ui.Space16
 import org.koin.androidx.compose.koinViewModel
@@ -41,6 +47,7 @@ fun HomeScreen(
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showBottomSheet by rememberSaveable { mutableStateOf(false) }
     var selectedMovementUiIndex by rememberSaveable { mutableIntStateOf(InitialSelectedMovementUiIndex) }
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     LaunchedEffect(true) {
         viewModel.getUser("SkBBdUQwDGRfsnLxeTIXIFjqVBH2")
@@ -48,9 +55,24 @@ fun HomeScreen(
 
     Scaffold(
             topBar = {
-                TopAppBar(
+                LargeTopAppBar(
                         title = {
-                            Text("Expenses")
+                            if (scrollBehavior.state.collapsedFraction > 0.5f) {
+                                Text("Explore your finances today!")
+                            } else {
+                                homeUiModel.userUi?.let {
+                                    Column(verticalArrangement = Arrangement.spacedBy(Space16)) {
+                                        Text(
+                                                text = "Welcome back, ${it.name} ${it.lastName}!".trim(),
+                                                style = MaterialTheme.typography.titleLarge
+                                        )
+                                        Text(
+                                                text = it.email,
+                                                style = MaterialTheme.typography.titleMedium
+                                        )
+                                    }
+                                }
+                            }
                         },
                         actions = {
                             IconButton(onClick = onSignOutListener) {
@@ -59,10 +81,11 @@ fun HomeScreen(
                                         contentDescription = null
                                 )
                             }
-                        }
+                        },
+                        scrollBehavior = scrollBehavior
                 )
             },
-            modifier = modifier
+            modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { paddingValues ->
         HomeContent(
                 homeUiModel = homeUiModel,
@@ -93,7 +116,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun HomeContent(
+private fun HomeContent(
         homeUiModel: HomeUiModel,
         modifier: Modifier = Modifier,
         onMovementListener: (Int) -> Unit
