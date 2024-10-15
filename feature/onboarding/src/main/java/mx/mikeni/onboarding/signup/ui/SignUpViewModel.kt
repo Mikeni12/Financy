@@ -3,15 +3,16 @@ package mx.mikeni.onboarding.signup.ui
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import mx.mikeni.onboarding.signup.domain.ISignUpUseCase
+import mx.mikeni.ui.CoroutinesDispatchers
 
-class SignUpViewModel(private val signUpUseCase: ISignUpUseCase) : ViewModel() {
+class SignUpViewModel(private val signUpUseCase: ISignUpUseCase,
+                      private val coroutinesDispatchers: CoroutinesDispatchers) : ViewModel() {
 
     private val _signUpUiModel = MutableStateFlow(SignUpUiModel())
 
@@ -20,9 +21,9 @@ class SignUpViewModel(private val signUpUseCase: ISignUpUseCase) : ViewModel() {
 
     fun signUp(email: String, password: String, name: String, lastName: String, photoId: Uri) {
         emitSignUpUiState(showProgress = true)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutinesDispatchers.io) {
             val result = signUpUseCase.signUp(email, password, name, lastName, photoId)
-            withContext(Dispatchers.Main) {
+            withContext(coroutinesDispatchers.main) {
                 result.onSuccess { signUpSuccess(it) }
                         .onFailure { signUpFailure(it) }
             }

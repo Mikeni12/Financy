@@ -2,15 +2,16 @@ package mx.mikeni.home.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import mx.mikeni.home.domain.IGetUserUseCase
+import mx.mikeni.ui.CoroutinesDispatchers
 
-class HomeViewModel(private val getUserUseCase: IGetUserUseCase) : ViewModel() {
+class HomeViewModel(private val getUserUseCase: IGetUserUseCase,
+                    private val coroutinesDispatchers: CoroutinesDispatchers) : ViewModel() {
 
     private val _homeUiModel = MutableStateFlow(HomeUiModel())
 
@@ -19,9 +20,9 @@ class HomeViewModel(private val getUserUseCase: IGetUserUseCase) : ViewModel() {
 
     fun getUser(userId: String) {
         emitHomeUiState(showProgress = true)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutinesDispatchers.io) {
             val result = getUserUseCase.getUser(userId)
-            withContext(Dispatchers.Main) {
+            withContext(coroutinesDispatchers.main) {
                 result.onSuccess { getUserSuccess(it.toUserUi()) }
                         .onFailure { getUserFailure(it) }
             }

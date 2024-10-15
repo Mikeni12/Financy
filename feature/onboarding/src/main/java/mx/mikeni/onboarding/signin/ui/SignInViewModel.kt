@@ -1,17 +1,17 @@
 package mx.mikeni.onboarding.signin.ui
 
-import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import mx.mikeni.onboarding.signin.domain.ISignInUseCase
+import mx.mikeni.ui.CoroutinesDispatchers
 
-class SignInViewModel(private val signInUseCase: ISignInUseCase) : ViewModel() {
+class SignInViewModel(private val signInUseCase: ISignInUseCase,
+                      private val coroutinesDispatchers: CoroutinesDispatchers) : ViewModel() {
 
     private val _signInUiModel = MutableStateFlow(SignInUiModel())
 
@@ -20,11 +20,11 @@ class SignInViewModel(private val signInUseCase: ISignInUseCase) : ViewModel() {
 
     fun signIn(email: String, password: String) {
         _signInUiModel.update { SignInUiModel(showProgress = true) }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) return emitSignInUiState(isEmailError = true)
+        if (!EMAIL_PATTERN.toRegex().matches(email)) return emitSignInUiState(isEmailError = true)
         if (!PASSWORD_PATTERN.toRegex().matches(password)) return emitSignInUiState(isPasswordError = true)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutinesDispatchers.io) {
             val result = signInUseCase.signIn(email, password)
-            withContext(Dispatchers.Main) {
+            withContext(coroutinesDispatchers.main) {
                 result.onSuccess { signInSuccess(it) }
                         .onFailure { signInFailure(it) }
             }
@@ -53,6 +53,7 @@ class SignInViewModel(private val signInUseCase: ISignInUseCase) : ViewModel() {
     }
 
     companion object {
-        const val PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+        const val EMAIL_PATTERN = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+        const val PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$"
     }
 }
