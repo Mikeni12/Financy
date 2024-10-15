@@ -168,7 +168,7 @@ private fun SignInContent(
                 supportingText = {
                     if (isPasswordError) {
                         Text(
-                                text = "Invalid password, must be minimum eight characters, at least one letter and one number"
+                                text = "Must be minimum eight characters, at least one letter, one number and one special character"
                         )
                     }
                 },

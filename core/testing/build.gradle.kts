@@ -30,6 +30,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui"))
+
     api(kotlin("test"))
     api(libs.mockk.android)
     api(libs.mockk.agent)

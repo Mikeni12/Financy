@@ -2,7 +2,6 @@
 agp = "8.3.2"
 kotlin = "2.0.21"
 junitVersion = "1.2.1"
-espressoCore = "3.6.1"
 androidxActivity = "1.9.2"
 androidxCore = "1.13.1"
 androidxLifecycle = "2.8.6"
@@ -17,7 +16,6 @@ coil = "2.7.0"
 
 [libraries]
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
