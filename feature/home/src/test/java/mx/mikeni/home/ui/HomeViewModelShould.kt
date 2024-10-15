@@ -1,4 +1,4 @@
-package mx.mikeni.home
+package mx.mikeni.home.ui
 
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -9,8 +9,8 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest
 import mx.mikeni.ANY_USER_ID
 import mx.mikeni.home.domain.IGetUserUseCase
-import mx.mikeni.home.ui.HomeUiModel
-import mx.mikeni.home.ui.HomeViewModel
+import mx.mikeni.home.givenUser
+import mx.mikeni.home.givenUserUi
 import mx.mikeni.testing.CoroutineScopeRule
 import org.junit.Rule
 import org.junit.Test
