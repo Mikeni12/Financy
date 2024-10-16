@@ -13,6 +13,8 @@ On this project I developed a banking application with three main features that 
 
 ## 🔖 Features
 
+On this section I document the features I worked on showing the path where the user sets everything correct or the system works as expected and the unhappy path where something went wrong.
+
 ### 🎯 Sign in
 
 Happy Path | Unhappy Path
@@ -32,6 +34,9 @@ Happy Path | Unhappy Path
 --- | --- 
 <video src="https://github.com/user-attachments/assets/68345f9c-2f60-4e1b-b9c6-d3daa1e7b214"> | <img src="https://github.com/user-attachments/assets/b35f555a-f617-422f-af3f-95cb71078bc9"  width="300">
 
+In order to verify that the photo was loaded correctly to Firebase, I put a dialog that will display the saved image whenever we click on the email text on the app bar:
+
+[Screen_recording_20241015_214448.webm](https://github.com/user-attachments/assets/db47c11d-ac3b-45c9-8b64-91af7633ad36)
 
 ## ✅ Testing
 
