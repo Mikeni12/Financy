@@ -9,17 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -35,10 +27,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import kotlinx.coroutines.launch
 import mx.mikeni.ui.ErrorSnackBar
+import mx.mikeni.ui.OutlinedErrorPasswordTextField
+import mx.mikeni.ui.OutlinedErrorTextField
 import mx.mikeni.ui.Space32
 import mx.mikeni.ui.Space4
 import mx.mikeni.ui.Space64
@@ -123,55 +115,22 @@ private fun SignInContent(
                 style = MaterialTheme.typography.displayLarge
         )
         Spacer(modifier = Modifier.height(Space32))
-        OutlinedTextField(
+        OutlinedErrorTextField(
                 value = email,
-                onValueChange = onEmailChangedListener,
-                label = { Text("Email") },
-                singleLine = true,
-                shape = CircleShape,
-                trailingIcon = {
-                    if (isEmailError) {
-                        Icon(
-                                imageVector = Icons.Filled.Error,
-                                contentDescription = null
-                        )
-                    }
-                },
+                label = "Email",
                 isError = isEmailError,
-                supportingText = {
-                    if (isEmailError) {
-                        Text(
-                                text = "Invalid email"
-                        )
-                    }
-                },
+                errorMessage = "Invalid email",
+                onValueChangeListener = onEmailChangedListener,
                 modifier = Modifier.fillMaxWidth()
         )
-        OutlinedTextField(
+        OutlinedErrorPasswordTextField(
                 value = password,
-                onValueChange = onPasswordChangedListener,
-                label = { Text("Password") },
-                singleLine = true,
-                shape = CircleShape,
-                visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                trailingIcon = {
-                    IconButton(
-                            onClick = onPasswordVisibilityListener
-                    ) {
-                        Icon(
-                                imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                                contentDescription = null
-                        )
-                    }
-                },
+                label = "Password",
+                isPasswordVisible = isPasswordVisible,
                 isError = isPasswordError,
-                supportingText = {
-                    if (isPasswordError) {
-                        Text(
-                                text = "Must be minimum eight characters, at least one letter, one number and one special character"
-                        )
-                    }
-                },
+                errorMessage = "Invalid password",
+                onValueChangeListener = onPasswordChangedListener,
+                onPasswordVisibilityListener = onPasswordVisibilityListener,
                 modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(Space64))

@@ -1,15 +1,16 @@
 package mx.mikeni.onboarding.signup.ui
 
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import mx.mikeni.ui.OutlinedErrorPasswordTextField
+import mx.mikeni.ui.OutlinedErrorTextField
 import mx.mikeni.ui.Space64
 
 @Composable
@@ -18,12 +19,14 @@ fun ColumnScope.UserFormScreen(
         password: String,
         name: String,
         lastName: String,
+        isPasswordVisible: Boolean,
         isEmailError: Boolean,
         isPasswordError: Boolean,
         isNameError: Boolean,
         isLastNameError: Boolean,
         onEmailChangedListener: (String) -> Unit,
         onPasswordChangedListener: (String) -> Unit,
+        onPasswordVisibilityListener: () -> Unit,
         onNameChangedListener: (String) -> Unit,
         onLastNameChangedListener: (String) -> Unit,
         onNextListener: () -> Unit,
@@ -33,68 +36,38 @@ fun ColumnScope.UserFormScreen(
             text = "Fill the form to start your registration",
             style = MaterialTheme.typography.titleLarge,
     )
-    OutlinedTextField(
+    OutlinedErrorTextField(
             value = email,
-            onValueChange = onEmailChangedListener,
-            label = { Text("Email") },
-            singleLine = true,
-            shape = CircleShape,
+            label = "Email",
             isError = isEmailError,
-            supportingText = {
-                if (isEmailError) {
-                    Text(
-                            text = "Invalid email"
-                    )
-                }
-            },
+            errorMessage = "Invalid email",
+            onValueChangeListener = onEmailChangedListener,
             modifier = modifier
     )
-    OutlinedTextField(
+    OutlinedErrorPasswordTextField(
             value = password,
-            onValueChange = onPasswordChangedListener,
-            label = { Text("Password") },
-            singleLine = true,
-            shape = CircleShape,
+            label = "Password",
+            isPasswordVisible = isPasswordVisible,
             isError = isPasswordError,
-            supportingText = {
-                if (isPasswordError) {
-                    Text(
-                            text = "Must be minimum eight characters, at least one letter, one number and one special character"
-                    )
-                }
-            },
-            modifier = modifier
+            errorMessage = "Invalid password",
+            onValueChangeListener = onPasswordChangedListener,
+            onPasswordVisibilityListener = onPasswordVisibilityListener,
+            modifier = Modifier.fillMaxWidth()
     )
-    OutlinedTextField(
+    OutlinedErrorTextField(
             value = name,
-            onValueChange = onNameChangedListener,
-            label = { Text("Name") },
-            singleLine = true,
-            shape = CircleShape,
+            label = "Name",
             isError = isNameError,
-            supportingText = {
-                if (isNameError) {
-                    Text(
-                            text = "Invalid name"
-                    )
-                }
-            },
+            errorMessage = "Invalid name",
+            onValueChangeListener = onNameChangedListener,
             modifier = modifier
     )
-    OutlinedTextField(
+    OutlinedErrorTextField(
             value = lastName,
-            onValueChange = onLastNameChangedListener,
-            label = { Text("Last Name") },
-            singleLine = true,
-            shape = CircleShape,
+            label = "Last Name",
             isError = isLastNameError,
-            supportingText = {
-                if (isLastNameError) {
-                    Text(
-                            text = "Invalid last name"
-                    )
-                }
-            },
+            errorMessage = "Invalid last name",
+            onValueChangeListener = onLastNameChangedListener,
             modifier = modifier
     )
     Button(

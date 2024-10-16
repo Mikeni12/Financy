@@ -101,6 +101,7 @@ private fun SignUpContent(
     var name by remember { mutableStateOf(String()) }
     var lastName by remember { mutableStateOf(String()) }
     var currentPhotoUri by remember { mutableStateOf(Uri.EMPTY) }
+    var isPasswordVisible by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { SignUpPagerSize })
     val focusManager = LocalFocusManager.current
 
@@ -136,12 +137,14 @@ private fun SignUpContent(
                             password = password,
                             name = name,
                             lastName = lastName,
+                            isPasswordVisible = isPasswordVisible,
                             isEmailError = isEmailError,
                             isPasswordError = isPasswordError,
                             isNameError = isNameError,
                             isLastNameError = isLastNameError,
                             onEmailChangedListener = { email = it },
                             onPasswordChangedListener = { password = it },
+                            onPasswordVisibilityListener = { isPasswordVisible = !isPasswordVisible },
                             onNameChangedListener = { name = it },
                             onLastNameChangedListener = { lastName = it },
                             onNextListener = {
