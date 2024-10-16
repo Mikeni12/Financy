@@ -18,6 +18,10 @@ fun ColumnScope.UserFormScreen(
         password: String,
         name: String,
         lastName: String,
+        isEmailError: Boolean,
+        isPasswordError: Boolean,
+        isNameError: Boolean,
+        isLastNameError: Boolean,
         onEmailChangedListener: (String) -> Unit,
         onPasswordChangedListener: (String) -> Unit,
         onNameChangedListener: (String) -> Unit,
@@ -35,6 +39,14 @@ fun ColumnScope.UserFormScreen(
             label = { Text("Email") },
             singleLine = true,
             shape = CircleShape,
+            isError = isEmailError,
+            supportingText = {
+                if (isEmailError) {
+                    Text(
+                            text = "Invalid email"
+                    )
+                }
+            },
             modifier = modifier
     )
     OutlinedTextField(
@@ -43,6 +55,14 @@ fun ColumnScope.UserFormScreen(
             label = { Text("Password") },
             singleLine = true,
             shape = CircleShape,
+            isError = isPasswordError,
+            supportingText = {
+                if (isPasswordError) {
+                    Text(
+                            text = "Must be minimum eight characters, at least one letter, one number and one special character"
+                    )
+                }
+            },
             modifier = modifier
     )
     OutlinedTextField(
@@ -51,6 +71,14 @@ fun ColumnScope.UserFormScreen(
             label = { Text("Name") },
             singleLine = true,
             shape = CircleShape,
+            isError = isNameError,
+            supportingText = {
+                if (isNameError) {
+                    Text(
+                            text = "Invalid name"
+                    )
+                }
+            },
             modifier = modifier
     )
     OutlinedTextField(
@@ -59,6 +87,14 @@ fun ColumnScope.UserFormScreen(
             label = { Text("Last Name") },
             singleLine = true,
             shape = CircleShape,
+            isError = isLastNameError,
+            supportingText = {
+                if (isLastNameError) {
+                    Text(
+                            text = "Invalid last name"
+                    )
+                }
+            },
             modifier = modifier
     )
     Button(

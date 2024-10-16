@@ -18,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalFocusManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import mx.mikeni.ui.ErrorSnackBar
@@ -43,12 +45,8 @@ fun SignUpScreen(
         viewModel: SignUpViewModel = koinViewModel<SignUpViewModel>(),
         onSignUpListener: (String) -> Unit
 ) {
+    val signUpFormUiModel by viewModel.signUpFormUiModel.collectAsState()
     val signUpUiModel by viewModel.signUpUiModel.collectAsState()
-    var email by remember { mutableStateOf(String()) }
-    var password by remember { mutableStateOf(String()) }
-    var name by remember { mutableStateOf(String()) }
-    var lastName by remember { mutableStateOf(String()) }
-    var currentPhotoUri by remember { mutableStateOf(Uri.EMPTY) }
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     Scaffold(
@@ -60,19 +58,17 @@ fun SignUpScreen(
             modifier = modifier
     ) { paddingValues ->
         SignUpContent(
-                email = email,
-                password = password,
-                name = name,
-                lastName = lastName,
-                photoUri = currentPhotoUri,
+                isEmailError = signUpFormUiModel.isEmailError,
+                isPasswordError = signUpFormUiModel.isPasswordError,
+                isNameError = signUpFormUiModel.isNameError,
+                isLastNameError = signUpFormUiModel.isLastNameError,
+                isFormValid = signUpFormUiModel.isFormValid,
                 userId = signUpUiModel.userId,
                 coroutineScope = scope,
-                onEmailChangedListener = { email = it },
-                onPasswordChangedListener = { password = it },
-                onNameChangedListener = { name = it },
-                onLastNameChangedListener = { lastName = it },
-                onTakePhotoListener = { currentPhotoUri = it },
-                onSignUpListener = {
+                onFormListener = { email, password, name, lastName ->
+                    viewModel.validateForm(email, password, name, lastName)
+                },
+                onSignUpListener = { email, password, name, lastName, currentPhotoUri ->
                     viewModel.signUp(email, password, name, lastName, currentPhotoUri)
                 },
                 onHomeListener = {
@@ -88,24 +84,38 @@ fun SignUpScreen(
 
 @Composable
 private fun SignUpContent(
-        email: String,
-        password: String,
-        name: String,
-        lastName: String,
-        photoUri: Uri,
+        isEmailError: Boolean,
+        isPasswordError: Boolean,
+        isNameError: Boolean,
+        isLastNameError: Boolean,
+        isFormValid: Boolean,
         userId: String?,
         coroutineScope: CoroutineScope,
-        onEmailChangedListener: (String) -> Unit,
-        onPasswordChangedListener: (String) -> Unit,
-        onNameChangedListener: (String) -> Unit,
-        onLastNameChangedListener: (String) -> Unit,
-        onTakePhotoListener: (Uri) -> Unit,
-        onSignUpListener: () -> Unit,
+        onFormListener: (String, String, String, String) -> Unit,
+        onSignUpListener: (String, String, String, String, Uri) -> Unit,
         onHomeListener: () -> Unit,
         modifier: Modifier = Modifier
 ) {
-    val pagerState = rememberPagerState(pageCount = { 3 })
-    if (userId != null) coroutineScope.launch { pagerState.animateScrollToPage(2) }
+    var email by remember { mutableStateOf(String()) }
+    var password by remember { mutableStateOf(String()) }
+    var name by remember { mutableStateOf(String()) }
+    var lastName by remember { mutableStateOf(String()) }
+    var currentPhotoUri by remember { mutableStateOf(Uri.EMPTY) }
+    val pagerState = rememberPagerState(pageCount = { SignUpPagerSize })
+    val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(isFormValid) {
+        if (isFormValid) {
+            coroutineScope.launch { pagerState.animateScrollToPage(UserPhotoIndex) }
+        }
+    }
+    LaunchedEffect(userId) {
+        if (userId != null) {
+            coroutineScope.launch {
+                pagerState.animateScrollToPage(UserSignedIndex)
+            }
+        }
+    }
     Box(
             modifier = modifier.fillMaxSize()
     ) {
@@ -121,29 +131,38 @@ private fun SignUpContent(
                             .padding(vertical = Space32, horizontal = Space16)
             ) {
                 when (it) {
-                    0 -> UserFormScreen(
+                    UserFormIndex -> UserFormScreen(
                             email = email,
                             password = password,
                             name = name,
                             lastName = lastName,
-                            onEmailChangedListener = onEmailChangedListener,
-                            onPasswordChangedListener = onPasswordChangedListener,
-                            onNameChangedListener = onNameChangedListener,
-                            onLastNameChangedListener = onLastNameChangedListener,
+                            isEmailError = isEmailError,
+                            isPasswordError = isPasswordError,
+                            isNameError = isNameError,
+                            isLastNameError = isLastNameError,
+                            onEmailChangedListener = { email = it },
+                            onPasswordChangedListener = { password = it },
+                            onNameChangedListener = { name = it },
+                            onLastNameChangedListener = { lastName = it },
                             onNextListener = {
-                                coroutineScope.launch { pagerState.animateScrollToPage(1) }
+                                focusManager.clearFocus()
+                                if (isFormValid) {
+                                    coroutineScope.launch { pagerState.animateScrollToPage(UserPhotoIndex) }
+                                } else {
+                                    onFormListener(email, password, name, lastName)
+                                }
                             },
                             modifier = Modifier.fillMaxWidth()
                     )
 
-                    1 -> UserPhotoScreen(
-                            photoUri = photoUri,
-                            onTakePhotoListener = onTakePhotoListener,
+                    UserPhotoIndex -> UserPhotoScreen(
+                            photoUri = currentPhotoUri,
+                            onTakePhotoListener = { currentPhotoUri = it },
                             onPreviousListener = {
-                                coroutineScope.launch { pagerState.animateScrollToPage(0) }
+                                coroutineScope.launch { pagerState.animateScrollToPage(UserFormIndex) }
                             },
                             onSignUpListener = {
-                                onSignUpListener()
+                                onSignUpListener(email, password, name, lastName, currentPhotoUri)
                             }
                     )
 
@@ -174,3 +193,8 @@ private fun SignUpContent(
         }
     }
 }
+
+private const val UserFormIndex = 0
+private const val UserPhotoIndex = 1
+private const val UserSignedIndex = 2
+private const val SignUpPagerSize = 3
