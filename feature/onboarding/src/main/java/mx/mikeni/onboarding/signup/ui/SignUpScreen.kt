@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import mx.mikeni.ui.ErrorSnackBar
 import mx.mikeni.ui.Pink40
@@ -43,11 +44,11 @@ fun SignUpScreen(
         onSignUpListener: (String) -> Unit
 ) {
     val signUpUiModel by viewModel.signUpUiModel.collectAsState()
-    var email by remember { mutableStateOf("miguel.alpizar@financy.mx") }
-    var password by remember { mutableStateOf("Password123!") }
-    var name by remember { mutableStateOf("Miguel") }
-    var lastName by remember { mutableStateOf("Alpizar") }
-    var currentPhotoUri by remember { mutableStateOf(value = Uri.EMPTY) }
+    var email by remember { mutableStateOf(String()) }
+    var password by remember { mutableStateOf(String()) }
+    var name by remember { mutableStateOf(String()) }
+    var lastName by remember { mutableStateOf(String()) }
+    var currentPhotoUri by remember { mutableStateOf(Uri.EMPTY) }
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     Scaffold(
@@ -64,6 +65,8 @@ fun SignUpScreen(
                 name = name,
                 lastName = lastName,
                 photoUri = currentPhotoUri,
+                userId = signUpUiModel.userId,
+                coroutineScope = scope,
                 onEmailChangedListener = { email = it },
                 onPasswordChangedListener = { password = it },
                 onNameChangedListener = { name = it },
@@ -72,17 +75,13 @@ fun SignUpScreen(
                 onSignUpListener = {
                     viewModel.signUp(email, password, name, lastName, currentPhotoUri)
                 },
+                onHomeListener = {
+                    onSignUpListener(signUpUiModel.userId.orEmpty())
+                },
                 modifier = modifier.padding(paddingValues)
         )
-        with(signUpUiModel) {
-            when {
-                userId != null -> onSignUpListener(userId)
-                error != null -> {
-                    scope.launch {
-                        snackBarHostState.showSnackbar(error.message.orEmpty())
-                    }
-                }
-            }
+        signUpUiModel.error?.message?.let {
+            scope.launch { snackBarHostState.showSnackbar(it) }
         }
     }
 }
@@ -94,20 +93,25 @@ private fun SignUpContent(
         name: String,
         lastName: String,
         photoUri: Uri,
+        userId: String?,
+        coroutineScope: CoroutineScope,
         onEmailChangedListener: (String) -> Unit,
         onPasswordChangedListener: (String) -> Unit,
         onNameChangedListener: (String) -> Unit,
         onLastNameChangedListener: (String) -> Unit,
         onTakePhotoListener: (Uri) -> Unit,
         onSignUpListener: () -> Unit,
+        onHomeListener: () -> Unit,
         modifier: Modifier = Modifier
 ) {
     val pagerState = rememberPagerState(pageCount = { 3 })
+    if (userId != null) coroutineScope.launch { pagerState.animateScrollToPage(2) }
     Box(
             modifier = modifier.fillMaxSize()
     ) {
         HorizontalPager(
-                state = pagerState
+                state = pagerState,
+                userScrollEnabled = false
         ) {
             Column(
                     verticalArrangement = Arrangement.spacedBy(Space32),
@@ -126,16 +130,25 @@ private fun SignUpContent(
                             onPasswordChangedListener = onPasswordChangedListener,
                             onNameChangedListener = onNameChangedListener,
                             onLastNameChangedListener = onLastNameChangedListener,
+                            onNextListener = {
+                                coroutineScope.launch { pagerState.animateScrollToPage(1) }
+                            },
                             modifier = Modifier.fillMaxWidth()
                     )
 
                     1 -> UserPhotoScreen(
                             photoUri = photoUri,
-                            onTakePhotoListener = onTakePhotoListener
+                            onTakePhotoListener = onTakePhotoListener,
+                            onPreviousListener = {
+                                coroutineScope.launch { pagerState.animateScrollToPage(0) }
+                            },
+                            onSignUpListener = {
+                                onSignUpListener()
+                            }
                     )
 
                     else -> UserSignedScreen(
-                            onSignUpListener = onSignUpListener
+                            onHomeListener = onHomeListener
                     )
                 }
             }

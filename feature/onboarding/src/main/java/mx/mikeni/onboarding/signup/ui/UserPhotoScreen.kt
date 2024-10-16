@@ -3,8 +3,9 @@ package mx.mikeni.onboarding.signup.ui
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -24,9 +25,11 @@ import mx.mikeni.ui.Space64
 import mx.mikeni.ui.createTempPictureUri
 
 @Composable
-fun ColumnScope.UserPhotoScreen(
+fun UserPhotoScreen(
         photoUri: Uri,
-        onTakePhotoListener: (Uri) -> Unit
+        onTakePhotoListener: (Uri) -> Unit,
+        onPreviousListener: () -> Unit,
+        onSignUpListener: () -> Unit
 ) {
     val context = LocalContext.current
     var tempPhotoUri by remember { mutableStateOf(value = Uri.EMPTY) }
@@ -37,7 +40,7 @@ fun ColumnScope.UserPhotoScreen(
             }
     )
     Text(
-            text = "Take a photo to finish your registration",
+            text = "Take an ID photo to finish your registration",
             style = MaterialTheme.typography.titleLarge,
     )
     Button(
@@ -50,12 +53,28 @@ fun ColumnScope.UserPhotoScreen(
     ) {
         Text("Take Photo")
     }
-    AnimatedVisibility(photoUri.toString().isNotBlank()) {
-        AsyncImage(
-                model = photoUri,
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.size(Space384)
-        )
+    AsyncImage(
+            model = photoUri.toString().ifBlank { "https://i.pinimg.com/736x/a4/79/14/a47914817fc898b1bbb750ae18f7eea3.jpg" },
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.size(Space384)
+    )
+    Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Space64)
+    ) {
+        Button(
+                onClick = onPreviousListener,
+        ) {
+            Text("Previous")
+        }
+        Button(
+                onClick = onSignUpListener,
+                enabled = photoUri.toString().isNotBlank()
+        ) {
+            Text("Sign Up")
+        }
     }
 }
