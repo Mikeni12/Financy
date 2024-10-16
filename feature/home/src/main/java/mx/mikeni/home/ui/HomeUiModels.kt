@@ -11,6 +11,7 @@ data class HomeUiModel(val showProgress: Boolean = false,
 data class UserUi(val name: String,
                   val lastName: String,
                   val email: String,
+                  val photoId: String,
                   val movementUiList: List<MovementUi>)
 
 data class MovementUi(val title: String,
@@ -27,6 +28,7 @@ fun User.toUserUi() = UserUi(
         name = name,
         lastName = lastName,
         email = email,
+        photoId = photoId,
         movementUiList = movements.toMovementUiList())
 
 private fun List<Movement>.toMovementUiList() = map { it.toMovementUi() }

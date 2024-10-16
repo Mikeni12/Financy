@@ -12,6 +12,7 @@ fun givenUserUi() = UserUi(
         name = ANY_USER_NAME,
         lastName = ANY_USER_LAST_NAME,
         email = ANY_USER_EMAIL,
+        photoId = ANY_USER_PHOTO_ID,
         movementUiList = listOf())
 
 fun givenUser() = User(

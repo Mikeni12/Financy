@@ -1,5 +1,6 @@
 package mx.mikeni.home.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
+import mx.mikeni.ui.DialogWithImage
 import mx.mikeni.ui.Space16
 import mx.mikeni.ui.Space384
 import org.koin.androidx.compose.koinViewModel
@@ -49,6 +51,7 @@ fun HomeScreen(
     val homeUiModel by viewModel.homeUiModel.collectAsState()
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var showPhotoDialog by rememberSaveable { mutableStateOf(false) }
     var showBottomSheet by rememberSaveable { mutableStateOf(false) }
     var selectedMovementUiIndex by rememberSaveable { mutableIntStateOf(InitialSelectedMovementUiIndex) }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -72,7 +75,8 @@ fun HomeScreen(
                                         )
                                         Text(
                                                 text = it.email,
-                                                style = MaterialTheme.typography.titleMedium
+                                                style = MaterialTheme.typography.titleMedium,
+                                                modifier = Modifier.clickable { showPhotoDialog = true }
                                         )
                                     }
                                 }
@@ -115,6 +119,15 @@ fun HomeScreen(
                         modifier = Modifier.padding(horizontal = Space16)
                 )
             }
+        }
+    }
+    homeUiModel.userUi?.let {
+        if (showPhotoDialog) {
+            DialogWithImage(
+                    imageUrl = it.photoId,
+                    onDismissRequest = { showPhotoDialog = false },
+                    onConfirmation = { showPhotoDialog = false }
+            )
         }
     }
 }
