@@ -30,7 +30,7 @@ class AuthRemoteDataSourceShould {
     fun setUp() = MockKAnnotations.init(this, true)
 
     @Test
-    fun `Return User id when signIn is called`() = runTest {
+    fun `Return User Id when signIn is called`() = runTest {
         val authResult = mockk<AuthResult> { every { user?.uid } returns ANY_USER_ID }
         every { firebaseAuth.signInWithEmailAndPassword(ANY_USER_EMAIL, ANY_USER_PASSWORD) } returns mockTask(authResult)
 

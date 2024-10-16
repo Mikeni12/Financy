@@ -29,7 +29,7 @@ class AuthRepositoryShould {
     fun setUp() = MockKAnnotations.init(this, true)
 
     @Test
-    fun `Return User id when signIn is called`() = runTest {
+    fun `Return User Id when signIn is called`() = runTest {
         coEvery { authRemoteDataSource.signIn(ANY_USER_EMAIL, ANY_USER_PASSWORD) } returns Result.success(ANY_USER_ID)
 
         val result = authRepository.signIn(ANY_USER_EMAIL, ANY_USER_PASSWORD).getOrNull()
@@ -49,7 +49,7 @@ class AuthRepositoryShould {
     }
 
     @Test
-    fun `Return User id when signUp is called`() = runTest {
+    fun `Return User Id when signUp is called`() = runTest {
         coEvery { authRemoteDataSource.signUp(ANY_USER_EMAIL, ANY_USER_PASSWORD) } returns Result.success(ANY_USER_ID)
 
         val result = authRepository.signUp(ANY_USER_EMAIL, ANY_USER_PASSWORD).getOrNull()

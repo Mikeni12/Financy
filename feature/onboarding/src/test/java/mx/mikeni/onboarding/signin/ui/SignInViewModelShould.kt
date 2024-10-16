@@ -1,4 +1,4 @@
-package mx.mikeni.onboarding.domain.signin
+package mx.mikeni.onboarding.signin.ui
 
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -14,8 +14,6 @@ import mx.mikeni.ANY_USER_ID
 import mx.mikeni.ANY_USER_NAME
 import mx.mikeni.ANY_USER_PASSWORD
 import mx.mikeni.onboarding.signin.domain.ISignInUseCase
-import mx.mikeni.onboarding.signin.ui.SignInUiModel
-import mx.mikeni.onboarding.signin.ui.SignInViewModel
 import mx.mikeni.testing.CoroutineScopeRule
 import org.junit.Before
 import org.junit.Rule
